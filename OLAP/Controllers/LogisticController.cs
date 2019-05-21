@@ -65,7 +65,7 @@ namespace OLAP.Controllers
                 {
                     entities.Заказы.Add(заказы);
                     entities.SaveChanges();
-                    return RedirectToAction("DetailsOrder");
+                    return RedirectToAction("Managment");
                 }
             }
             catch (DataException /* dex */)

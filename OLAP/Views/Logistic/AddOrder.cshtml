@@ -2,12 +2,7 @@
 
 <div class="but_div">
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Сохранить" class="" btn mb1 black bg-gray"" />
-        </div>
-    </div>
-    @Html.ActionLink("Вернуться назад", "DetailsOrder", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Вернуться назад", "Managment", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
 </div>
 
 
@@ -16,7 +11,7 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>Student</h4>
+    <div class="table_div"><h4>Добавление заказа:</h4> </div>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
@@ -85,11 +80,11 @@
             @Html.ValidationMessageFor(model => model.ВодительID, "", new { @class = "text-danger" })
         </div>
     </div>
-
-</div>   
+    <div class="but_div">  <input type="submit" value="Сохранить" class="" btn mb1 black bg-gray"" /></div>
+</div>
 }
 
-}
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

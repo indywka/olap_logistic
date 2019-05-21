@@ -7,6 +7,7 @@
  
 <div class="table_div">
     <table rules="all" class="table_price">
+        <caption>Просмотр данных по заказанным товарам</caption>
         <tr>
             <th>
                 Номер заказа
@@ -27,29 +28,29 @@
         </tr>
 
         @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ЗаказID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.КодТовара)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.РасценкаТоннЗаКм)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Количество)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Масса)
-            </td>
-            <td>
-                @Html.ActionLink("Изменить", "EditGoodInOrder", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Удалить", "DeleteGoodInOrder", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-    }
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ЗаказID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.КодТовара)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.РасценкаТоннЗаКм)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Количество)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Масса)
+                </td>
+                <td>
+                    @Html.ActionLink("Изменить", "EditGoodInOrder", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Удалить", "DeleteGoodInOrder", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
 
     </table>
     </div class="table_div">

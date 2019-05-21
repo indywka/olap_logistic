@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище managmentModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Водители">
+    <Key>
+      <PropertyRef Name="ВодительID" />
+    </Key>
+    <Property Name="ВодительID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ФИО" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="МобТелефон" Type="varchar" MaxLength="12" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ЗаказаноТоваров">
+    <Key>
+      <PropertyRef Name="ЗаказID" />
+      <PropertyRef Name="КодТовара" />
+    </Key>
+    <Property Name="ЗаказID" Type="int" Nullable="false" />
+    <Property Name="КодТовара" Type="int" Nullable="false" />
+    <Property Name="РасценкаТоннЗаКм" Type="money" Nullable="false" />
+    <Property Name="Количество" Type="int" Nullable="false" />
+    <Property Name="Масса" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Заказы">
+    <Key>
+      <PropertyRef Name="ЗаказID" />
+    </Key>
+    <Property Name="ЗаказID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="СрокПоставки" Type="date" Nullable="false" />
+    <Property Name="ДатаЗаказа" Type="date" Nullable="false" />
+    <Property Name="КлиентID" Type="int" Nullable="false" />
+    <Property Name="МестоНазначения" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="СостояниеID" Type="int" Nullable="false" />
+    <Property Name="ДатаДоставки" Type="date" />
+    <Property Name="ТрСредствоID" Type="int" Nullable="false" />
+    <Property Name="ВодительID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Клиенты">
+    <Key>
+      <PropertyRef Name="КлиентID" />
+    </Key>
+    <Property Name="КлиентID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ФИО" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Адрес" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Телефон" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="СкладТоваров">
+    <Key>
+      <PropertyRef Name="КодТовара" />
+    </Key>
+    <Property Name="КодТовара" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Остаток" Type="int" Nullable="false" />
+    <Property Name="Цена" Type="money" Nullable="false" />
+    <Property Name="Наименование" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="СостояниеЗаказа">
+    <Key>
+      <PropertyRef Name="СостояниеID" />
+    </Key>
+    <Property Name="СостояниеID" Type="int" Nullable="false" />
+    <Property Name="Состояние" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ТранспортноеСредство">
+    <Key>
+      <PropertyRef Name="ТрСредствоID" />
+    </Key>
+    <Property Name="ТрСредствоID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Марка" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Грузоподъемность" Type="float" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__ЗаказаноТ__Заказ__300424B4">
+    <End Role="Заказы" Type="Self.Заказы" Multiplicity="1" />
+    <End Role="ЗаказаноТоваров" Type="Self.ЗаказаноТоваров" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Заказы">
+        <PropertyRef Name="ЗаказID" />
+      </Principal>
+      <Dependent Role="ЗаказаноТоваров">
+        <PropertyRef Name="ЗаказID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ЗаказаноТ__КодТо__2F10007B">
+    <End Role="СкладТоваров" Type="Self.СкладТоваров" Multiplicity="1" />
+    <End Role="ЗаказаноТоваров" Type="Self.ЗаказаноТоваров" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="СкладТоваров">
+        <PropertyRef Name="КодТовара" />
+      </Principal>
+      <Dependent Role="ЗаказаноТоваров">
+        <PropertyRef Name="КодТовара" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Заказы__Водитель__30F848ED">
+    <End Role="Водители" Type="Self.Водители" Multiplicity="1" />
+    <End Role="Заказы" Type="Self.Заказы" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Водители">
+        <PropertyRef Name="ВодительID" />
+      </Principal>
+      <Dependent Role="Заказы">
+        <PropertyRef Name="ВодительID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Заказы__КлиентID__33D4B598">
+    <End Role="Клиенты" Type="Self.Клиенты" Multiplicity="1" />
+    <End Role="Заказы" Type="Self.Заказы" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Клиенты">
+        <PropertyRef Name="КлиентID" />
+      </Principal>
+      <Dependent Role="Заказы">
+        <PropertyRef Name="КлиентID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Заказы__Состояни__32E0915F">
+    <End Role="СостояниеЗаказа" Type="Self.СостояниеЗаказа" Multiplicity="1" />
+    <End Role="Заказы" Type="Self.Заказы" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="СостояниеЗаказа">
+        <PropertyRef Name="СостояниеID" />
+      </Principal>
+      <Dependent Role="Заказы">
+        <PropertyRef Name="СостояниеID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Заказы__ТрСредст__31EC6D26">
+    <End Role="ТранспортноеСредство" Type="Self.ТранспортноеСредство" Multiplicity="1" />
+    <End Role="Заказы" Type="Self.Заказы" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ТранспортноеСредство">
+        <PropertyRef Name="ТрСредствоID" />
+      </Principal>
+      <Dependent Role="Заказы">
+        <PropertyRef Name="ТрСредствоID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище managmentModelContainer">
+    <EntitySet Name="Водители" EntityType="Self.Водители" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ЗаказаноТоваров" EntityType="Self.ЗаказаноТоваров" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Заказы" EntityType="Self.Заказы" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Клиенты" EntityType="Self.Клиенты" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="СкладТоваров" EntityType="Self.СкладТоваров" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="СостояниеЗаказа" EntityType="Self.СостояниеЗаказа" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ТранспортноеСредство" EntityType="Self.ТранспортноеСредство" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__ЗаказаноТ__Заказ__300424B4" Association="Self.FK__ЗаказаноТ__Заказ__300424B4">
+      <End Role="Заказы" EntitySet="Заказы" />
+      <End Role="ЗаказаноТоваров" EntitySet="ЗаказаноТоваров" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ЗаказаноТ__КодТо__2F10007B" Association="Self.FK__ЗаказаноТ__КодТо__2F10007B">
+      <End Role="СкладТоваров" EntitySet="СкладТоваров" />
+      <End Role="ЗаказаноТоваров" EntitySet="ЗаказаноТоваров" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Заказы__Водитель__30F848ED" Association="Self.FK__Заказы__Водитель__30F848ED">
+      <End Role="Водители" EntitySet="Водители" />
+      <End Role="Заказы" EntitySet="Заказы" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Заказы__КлиентID__33D4B598" Association="Self.FK__Заказы__КлиентID__33D4B598">
+      <End Role="Клиенты" EntitySet="Клиенты" />
+      <End Role="Заказы" EntitySet="Заказы" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Заказы__Состояни__32E0915F" Association="Self.FK__Заказы__Состояни__32E0915F">
+      <End Role="СостояниеЗаказа" EntitySet="СостояниеЗаказа" />
+      <End Role="Заказы" EntitySet="Заказы" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Заказы__ТрСредст__31EC6D26" Association="Self.FK__Заказы__ТрСредст__31EC6D26">
+      <End Role="ТранспортноеСредство" EntitySet="ТранспортноеСредство" />
+      <End Role="Заказы" EntitySet="Заказы" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

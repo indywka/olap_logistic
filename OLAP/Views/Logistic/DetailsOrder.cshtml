@@ -1,0 +1,52 @@
+﻿@model IEnumerable<OLAP.Models.ЗаказаноТоваров>
+
+<p>
+    @Html.ActionLink("Добавить товар к заказу", "AddGoodInOrder")
+    @Html.ActionLink("Вернуться обратно", "Managment")
+</p>
+<table rules="all"  class="table_price">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ЗаказID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.КодТовара)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.РасценкаТоннЗаКм)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Количество)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Масса)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ЗаказID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.КодТовара)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.РасценкаТоннЗаКм)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Количество)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Масса)
+            </td>
+            <td>
+                @Html.ActionLink("Изменить", "EditGoodInOrder", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Удалить", "DeleteGoodInOrder", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+</table>

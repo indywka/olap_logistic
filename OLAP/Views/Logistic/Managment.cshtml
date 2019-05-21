@@ -1,0 +1,81 @@
+﻿@model IEnumerable<OLAP.Models.Заказы>
+
+
+<p>
+    @Html.ActionLink("Добавить заказ", "Create")
+</p>
+
+<div class="table_div">
+    <table rules="all" class="table_price">
+        <caption>Заказы</caption>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ЗаказID)
+            </th>
+            <th>
+                Срок Поставки
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ДатаЗаказа)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.КлиентID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.МестоНазначения)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.СостояниеID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ДатаДоставки)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ТрСредствоID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ВодительID)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ЗаказID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.СрокПоставки)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ДатаЗаказа)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.КлиентID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.МестоНазначения)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.СостояниеID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ДатаДоставки)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ТрСредствоID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ВодительID)
+                </td>
+                <td>
+                    @Html.ActionLink("Изменить", "Edit", new { ЗаказID = item.ЗаказID })
+                    @Html.ActionLink("Детали", "DetailsOrder", new { ЗаказID = item.ЗаказID, })
+                    @Html.ActionLink("Удалить", "Delete", new { ЗаказID = item.ЗаказID })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

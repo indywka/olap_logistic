@@ -1,0 +1,167 @@
+﻿@{
+    ViewBag.Title = "Manage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Scripts.Render("~/Scripts/bootstrap.file-input.js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
+}
+
+<div id="left">
+<div id="left1">
+        <div class="navbar">
+        <div class="navbar-inner">
+            <span id="DBSelLabel">Базы данных</span>
+            <div class="columnButtons">
+                <a href="#addNewDB" role="button" class="btn btn-success" data-toggle="modal">Загрузить...</a>
+                <a href="#" id="delDB" role="button" class="btn btn-danger disabled">Удалить</a>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="modal hide" id="addNewDB" tabindex="-1" style="z-index: 5001" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Загрузить источник данных</h3>
+        </div>
+        <div class="modal-body">
+            <div id="loadDBError" class="alert alert-error hide">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Ошибка!</strong> Все поля должны быть заполнены.
+            </div>
+            @using (Html.BeginForm("AddDataBase", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "loadDBForm" }))
+            {
+                <label>Введите имя</label>
+                <input type="text" placeholder="Введите текст…" name="name" id="dataBaseName">
+                <br />
+                <div>
+                    <input type="file" accept=".sdf" class="FieldTextWall" id="FileCheck" title="Обзор..." name="filePath"/>
+                </div>
+            }
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Отмена</button>
+            <button id="loadDB" class="btn btn-primary">Загрузить</button>
+        </div>
+    </div>
+
+    <select id="SelDB" size="2" class="selectData">
+        @if (ViewData["dataBases"] != null){
+        foreach (var db in (List<OLAP.Models.DataBase>)ViewData["dataBases"])
+        {
+            <option>@db.Name</option>
+        }
+        }
+    </select>
+</div>
+
+<div id="left2">
+    @Html.Partial("ShowDimensions")
+</div>
+</div>
+
+<div id="right">
+        <div id="right2">
+        @Html.Partial("ShowFacts")
+    </div>
+
+    <div id="right1">
+    @Html.Partial("ShowMeasures")
+    </div>
+</div>
+
+<script>
+    $("#ManageNav").addClass("active");
+
+    $("#loadDB").click(function () {
+        var str = $("#dataBaseName").val();
+        str = $.trim(str);
+        if (!str || !$("#FileCheck").val()) {
+            $("#loadDBError").show();
+            $("#dataBaseName").focus();
+        } else {
+            $("#loadDBForm").submit();
+            $("#dataBaseName").val() = "";
+        }
+    });
+
+    $("#SelDB").change(function () {
+        //$("#SelDB option:selected").val();
+        if ($("#SelDB").children().length == 0) {
+            $("#delDB").addClass("disabled");
+            $("#addDim").addClass("disabled");
+            $("#addMeas").addClass("disabled");
+            $("#addFact").addClass("disabled");
+        }
+        else {
+            $("#newDimBaseName").val($("#SelDB option:selected").val());
+            $("#newMeasBaseName").val($("#SelDB option:selected").val());
+            $("#newFactBaseName").val($("#SelDB option:selected").val());
+            $("#delDB").removeClass("disabled");
+            $("#addDim").removeClass("disabled");
+            $("#addFact").removeClass("disabled");
+        }
+    });
+
+    $("#delDB").click(function () {
+        $.get("@Url.Action("DeleteDataBase", "Home")", { name: $("#SelDB option:selected").val() });
+        $("#SelDB option:selected").remove();
+
+        if ($("#SelDB option:selected") != null) {
+            $("#delDB").addClass("disabled");
+            $("#SelDim").children().remove();
+            $("#SelMeas").children().remove();
+        }
+    });
+
+    function setDimensions(data) {
+        $("#SelDim").children().remove();
+        $("#newDimSel").children().remove();
+        $("#newFactSelTable").children().remove();
+        var dims = JSON.parse(data.responseText);
+        for (var dim in dims) {
+            if (dims[dim].Name !== "") {
+                $("#SelDim").append("<option>" + dims[dim].Name + "</option>");
+            } else if (dims[dim].TableName !== "") {
+                $("#newDimSel").append("<option>" + dims[dim].TableName + "</option>");
+                $("#newFactSelTable").append("<option>" + dims[dim].TableName + "</option>");
+            }
+        }
+    }
+
+    function setFacts(data) {
+        $("#newFactSelTable").children().remove();
+        var facts = JSON.parse(data.responseText);
+        for (var f in facts) {
+            if (facts[f].Name !== "") {
+                $("#SelFact").append("<option>" + facts[f].Name + "</option>");
+            }
+        }
+    }
+
+    $("#SelDB option").click(function () {
+        $("#addMeas").addClass("disabled");
+        $("#SelMeas").children().remove();
+        if ($("#SelDim").children().length == 0) {
+            $("#delDim").addClass("disabled");
+        }
+        if ($("#SelFact").children().length == 0) {
+            $("#delFact").addClass("disabled");
+        }
+        $.ajax({
+            type: "POST",
+            dataType: 'jsonp',
+            url: "/Home/ShowDimensions",
+            data: { baseName: $("#SelDB option:selected").val() },
+            success: setDimensions,
+            error: setDimensions
+        });
+
+        $.ajax({
+            type: "POST",
+            dataType: 'jsonp',
+            url: "/Home/ShowFacts",
+            data: { baseName: $("#SelDB option:selected").val() },
+            success: setFacts,
+            error: setFacts
+        });
+    });
+</script>

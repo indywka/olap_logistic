@@ -1,0 +1,395 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Scripts.Render("~/Scripts/three.min.js")
+    @Scripts.Render("~/Scripts/Control.js")
+    @Scripts.Render("~/Scripts/stats.min.js")
+    @Scripts.Render("~/Scripts/TrackballControls.js")
+    @Scripts.Render("~/Scripts/THREEx.screenshot.js")
+    @Scripts.Render("~/Scripts/markers.js")
+    @Scripts.Render("~/Scripts/SimpleData.js")
+}
+
+
+<table id="marker_template" class="marker" style="left:'-50px';top:'-50px'"><tr><td><span id="measureText" class="measure">Marker</span></td></tr></table>
+
+<div id="sideBar">
+	<div style="margin-top: 0px;"><h5>База данных</h5></div>
+	<select id="DBSel">
+            <option>Тест БД</option>
+	</select>
+
+	<div id="Dims">
+		<div><h5>Измерение X</h5></div>
+		<select id="xDimSel">
+  			<option>Время</option>
+  			<option>Расположение</option>
+  			<option>Категория</option>
+            <option>Работник</option>
+		</select>
+		<div><h5>Измерение Y</h5></div>
+		<select id="yDimSel">
+			<option>Время</option>
+  			<option>Расположение</option>
+  			<option>Категория</option>
+            <option>Работник</option>
+		</select>
+		<div><h5>Измерение Z</h5></div>
+		<select id="zDimSel">
+			<option>Время</option>
+  			<option>Расположение</option>
+  			<option>Категория</option>
+            <option>Работник</option>
+		</select>
+	</div>
+    <div id="Facts">
+        <div><h5>Анализируемый факт</h5></div>
+        <select id="factsSel">
+            <option>Доход</option>
+        </select>
+    </div>
+    <button id="createCube" class="btn btn-large btn-success" type="button">Построить куб</button>
+</div>
+
+<div id="visualizationBorder">
+    <div  id="visualization">
+        <div id="info">
+            <div><span id="measX"></span></div>
+            <div><span id="measY"></span></div>
+            <div><span id="measZ"></span></div>
+            <div><h5 id="fact"></h5></div>
+        </div>
+  		<ul id="contextMenu" class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    	    <li class="dropdown-submenu">
+                <a tabindex="-1" href="#">Детализация</a>
+                <ul class="dropdown-menu">
+                    <li><a tabindex="-1" href="#" id="timeDit">Время</a></li>
+                    <li><a tabindex="-1" href="#" id="locDit">Расположение</a></li>
+                    <li><a tabindex="-1" href="#">Категория</a></li>
+                </ul>
+    	    </li>
+  		</ul>
+	</div>
+</div>
+
+<div id="debug"></div>
+
+<script>
+    $("#CubeNav").addClass("active");
+/////////////////// Settings
+		    var HEIGHT = 567;
+			var	WIDTH = 1093;
+		    var DIMX = 0, DIMY = 1; DIMZ = 2;
+			var clock = new THREE.Clock();
+			var scene = new THREE.Scene();
+		    var camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 1, 10000);
+			var projector, raycaster;
+			var mouse = new THREE.Vector2(), INTERSECTED, ROLLOVERED;
+			var radius = 100;
+			var renderer;
+			//var blockIsMove = false;
+			var shiftGroup;
+			var face;
+			var currX;
+			var currY;
+			var currZ;
+			var currXLabel;
+			var currYLabel;
+			var currZLabel;
+			var currFact
+			var sceneObjects = new Array();
+			var dropdown = false;
+
+			renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true, antialias: true });
+			renderer.setSize(WIDTH, HEIGHT);
+			renderer.domElement.setAttribute("id", "Cnv");
+			var visualization = document.getElementById('visualization');
+			visualization.appendChild(renderer.domElement);
+			var canvas = document.getElementById('Cnv');
+
+			projector = new THREE.Projector();
+			raycaster = new THREE.Raycaster();
+
+/////////////////// Stats
+			//stats = new Stats();
+			//stats.domElement.style.position = 'absolute';
+			//document.body.appendChild(stats.domElement);
+
+/////////////////// Screenshots
+			//THREEx.Screenshot.bindKey(renderer);
+
+/////////////////// Objects
+			var cubesX;
+			function makeCube(countX, countY, countZ, labelsX, labelsY, labelsZ, facts) {
+			    //clearScene();
+			    currX = countX;
+			    currY = countY;
+			    currZ = countZ;
+			    currXLabel = labelsX;
+			    currYLabel = labelsY;
+			    currZLabel = labelsZ;
+			    currFact = facts;
+			    cubesX = Array(countX);
+			    for (var xi = 0; xi < countX; xi++) {
+			        var cubesY = Array(countY);
+			        for (var yi = 0; yi < countY; yi++) {
+			            var cubesZ = Array(countZ);
+			            for (var zi = 0; zi < countZ; zi++) {
+			                var geometry = new THREE.CubeGeometry(1, 1, 1);
+			                var material = new THREE.MeshLambertMaterial({ wireframe: false, color: 0x00ff00 });
+			                var cube = new THREE.Mesh(geometry, material);
+			                sceneObjects.push(cube);
+			                cube.position.x = xi;
+			                cube.position.y = yi;
+			                cube.position.z = zi;
+			                cube.x = xi;
+			                cube.y = yi;
+			                cube.z = zi;
+			                cubesZ[zi] = cube;
+			                scene.add(cube);
+			                var cubeMesh = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1), new THREE.MeshLambertMaterial({ wireframe: true, color: 0x000000 }));
+			                THREE.SceneUtils.attach(cubeMesh, scene, cube);
+			                sceneObjects.push(cubeMesh);
+
+			                createMarkers(cube, countX, countY, countZ, labelsX, labelsY, labelsZ);
+			            }
+			            cubesY[yi] = cubesZ;
+			        }
+			        cubesX[xi] = cubesY;
+			    }
+			}
+
+/////////////////// Create markers
+			function createMarkers(currCube, countX, countY, countZ, labelsX, labelsY, labelsZ) {
+			    if (currCube.position.x == countX - 1 && currCube.position.z == 0) {
+			        attachMarkerToCube(labelsY[currCube.position.y], currCube, DIMY);
+			    }
+			    else if ((currCube.position.y == (countY - 1)) && (currCube.position.z == (countZ - 1))) {
+			        attachMarkerToCube(labelsX[currCube.position.x], currCube, DIMX);
+			    }
+			    else if (currCube.position.x == 0 && currCube.position.y == 0) {
+			        attachMarkerToCube(labelsZ[currCube.position.z], currCube, DIMZ);
+			    }
+			}
+
+/////////////////// Clear scene
+			function clearScene() {
+			    for (var i in sceneObjects) {		        
+			        scene.remove(sceneObjects[i]);
+			    }
+			    sceneObjects = new Array();
+			    for (var i in markers) {
+			        var marker = markers[i];
+			        marker.parentNode.removeChild(marker);
+			    }
+			    markers = new Array();
+            }
+
+/////////////////// Lights
+			var light = new THREE.PointLight(0xffffff, 1, 10000);
+			light.position.set(200, 200, 200);
+			scene.add(light);
+
+			var light = new THREE.PointLight(0xffffff, 1, 10000);
+			light.position.set(-200, -200, -200);
+			scene.add(light);
+
+/////////////////// Controls
+			var controls = new THREE.TrackballControls(camera, canvas);
+			controls.rotateSpeed = 1.0;
+			controls.zoomSpeed = 1.2;
+			controls.panSpeed = 0.8;
+			controls.noZoom = false;
+			controls.noPan = false;
+			controls.staticMoving = true;
+			controls.dynamicDampingFactor = 0.3;
+
+/////////////////// Find intersections
+			var intersect = function () {
+			    var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
+			    projector.unprojectVector(vector, camera);
+
+			    raycaster.set(camera.position, vector.sub(camera.position).normalize());
+
+			    var intersects = raycaster.intersectObjects(scene.children);
+
+			    if (intersects.length > 0) {
+			        if (INTERSECTED != intersects[0].object) {
+
+			            if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+
+			            INTERSECTED = intersects[0].object;
+			            INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+			            INTERSECTED.material.emissive.setHex(0xff0000);
+			        }
+
+			    } else {
+			        if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+
+			        INTERSECTED = null;
+			    }
+		    }
+
+/////////////////// Mouse move
+			function onDocumentMouseMove(event) {
+
+			    event.preventDefault();
+
+			    mouse.x = ((event.clientX - 254) / WIDTH) * 2 - 1;
+			    mouse.y = -((event.clientY - 81) / HEIGHT) * 2 + 1;
+			    if (INTERSECTED != null) {
+			        document.getElementById("measX").textContent = $("#xDimSel option:selected").val() + ": " + currXLabel[INTERSECTED.x];
+			        document.getElementById("measY").textContent = $("#yDimSel option:selected").val() + ": " + currYLabel[INTERSECTED.y];
+			        document.getElementById("measZ").textContent = $("#zDimSel option:selected").val() + ": " + currZLabel[INTERSECTED.z];
+			        document.getElementById("fact").textContent = $("#factsSel option:selected").val() + ": " + currFact[INTERSECTED.x][INTERSECTED.y][INTERSECTED.z];
+			    }
+
+			    //var debug = document.getElementById("debug");
+			    //debug.textContent = "X:  " + camera.position.x + " Y:  "+ camera.position.y + " Z: " + camera.position.z;
+			   //var debug = document.getElementById("debug");
+			   //debug.textContent = "X:  " + INTERSECTED.position.x + " Y:  " + INTERSECTED.position.y + " Z: " + INTERSECTED.position.z;
+			}
+
+			function onDocumentMouseUp(event) {
+			    if (INTERSECTED != null) {
+			        $('.dropdown-toggle').dropdown();
+			    }
+			}
+
+			function shift(dim, shiftGroup) {
+			    blockIsMove = !blockIsMove;
+			    var moveDist = -7;
+			    if (blockIsMove == true) {
+			        moveDist = -moveDist;
+			    }
+			    for (var xi = 0; xi < currX; xi++) {
+			        for (var yi = 0; yi < currZ; yi++) {
+			            switch (dim) {
+			                case 0:
+			                    cubesX[shiftGroup][xi][yi].position.z -= moveDist
+			                    break
+			                case 1:
+			                    cubesX[xi][shiftGroup][yi].position.z -= moveDist
+			                    break
+			                case 2:
+			                    cubesX[xi][yi][shiftGroup].position.x -= moveDist
+			                    break
+			            }
+			        }
+			    }
+			    //var debug = document.getElementById("debug");
+			    //debug.textContent = blockIsMove;
+			}
+
+			function checkMovingGroup(dim, shiftGroup, objectX, objectY, objectZ) {
+			    //var debug = document.getElementById("debug");
+			    switch (dim) {
+			        case 0:
+			            //debug.textContent = shiftGroup + "  " + objectX
+			            return shiftGroup == objectX
+			        case 1:
+			            //debug.textContent = shiftGroup + "  " + objectY
+			            return shiftGroup == objectY
+			        case 2:
+			            //debug.textContent = shiftGroup + "  " + objectZ
+			            return shiftGroup == objectZ
+			    }
+			}
+
+			function onWindowResize() {
+
+				HEIGHT = $('#visualizationBorder').css('Height');
+				WIDTH = $('#visualizationBorder').css('Width');
+				camera.aspect = WIDTH / HEIGHT;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( WIDTH, HEIGHT );
+
+				var debug = document.getElementById("debug");
+			   	debug.textContent = "Width: " +$('#visualizationBorder').css('Width')+"	Height  " +$('#visualizationBorder').css('Height');
+			}
+
+			var canvas = document.getElementById('Cnv');
+			canvas.addEventListener('mousemove', onDocumentMouseMove, false);
+			canvas.addEventListener('click', onDocumentMouseUp, false);
+			//window.addEventListener( 'resize', onWindowResize, false );
+
+
+/////////////////// Camera settings and Render
+			camera.position.x = -3;
+			camera.position.y = 10;
+			camera.position.z = -3;
+			//camera.lookAt(new THREE.Vector3(-10, -10, -10));
+			//camera.lookAt(cubesX[4][4][4].position);
+
+			var render = function () {
+			    requestAnimationFrame(render);
+
+			    //pick();
+			    this.intersect();
+			    controls.update();
+			    //stats.update();
+			    //raycaster = projector.pickingRay(mouse.clone(), camera);
+			    renderer.render(scene, camera);
+			   	for( var i in markers ){
+					var marker = markers[i];
+					marker.update();
+				}		    	
+
+			};
+            
+			render();
+
+
+//////////////////// User interface script
+
+			function checkButton() {
+			    if (!$("#DBSel option:selected").val() ||
+                    !$("#xDimSel option:selected").val() ||
+                    !$("#yDimSel option:selected").val() ||
+                    !$("#zDimSel option:selected").val() ||
+                    !$("#DBSel option:selected").val()) {
+			        $("#factsSel").addClass("disabled");
+			    }
+			    else {
+			        $("#createCube").removeClass("disabled");
+			    }
+			}
+
+			$("#DBSel option").click(function () {
+			    checkButton();
+			    $("#DBSel option:selected").val()
+			});
+
+			$("#createCube").click(function () {
+			    clearScene();
+			    makeCube(x1, y1, z1, YearData, CountryData, Category, cube1);
+			});
+
+			$("#visualization").click(function (event) {
+			    if (INTERSECTED != null) {
+			        if (dropdown == false) {
+			            dropdown = true;
+			            $("#contextMenu").css({ 'display': 'block', 'left': event.clientX - 250 + 'px', 'top': event.clientY - 77 + 'px', 'z-index': '100000' });
+			        }
+			    } else if (dropdown == true) {
+			        dropdown = false;
+			        $("#contextMenu").css({ 'display': 'none', 'left': event.clientX - 250 + 'px', 'top': event.clientY - 77 + 'px', 'z-index': '100000' });
+			    }
+			});
+
+			$("#timeDit").click(function (event) {
+			    dropdown = false;
+			    $("#contextMenu").css({ 'display': 'none', 'left': event.clientX - 250 + 'px', 'top': event.clientY - 77 + 'px', 'z-index': '100000' });
+			    $("#contextMenu").append("<li class='dropdown-submenu'><a tabindex='-1' href='#'>Консолидация</a><ul class='dropdown-menu'><li><a tabindex='-1' href='#'>Время</a></li></ul></li>");
+			    clearScene();
+			    makeCube(x2, y2, z2, QuarterData, CountryData, Category, cube2);
+			});
+
+			$("#locDit").click(function (event) {
+			    dropdown = false;
+			    $("#contextMenu").css({ 'display': 'none', 'left': event.clientX - 250 + 'px', 'top': event.clientY - 77 + 'px', 'z-index': '100000' });
+			    clearScene();
+			    makeCube(x3, y3, z3, QuarterData, UkaineData, Category, cube3);
+			});
+</script>

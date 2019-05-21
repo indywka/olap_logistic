@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище managmentModelContainer" CdmEntityContainer="managmentEntities">
+    <EntitySetMapping Name="Водители">
+      <EntityTypeMapping TypeName="managmentModel.Водители">
+        <MappingFragment StoreEntitySet="Водители">
+          <ScalarProperty Name="ВодительID" ColumnName="ВодительID" />
+          <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+          <ScalarProperty Name="МобТелефон" ColumnName="МобТелефон" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ЗаказаноТоваров">
+      <EntityTypeMapping TypeName="managmentModel.ЗаказаноТоваров">
+        <MappingFragment StoreEntitySet="ЗаказаноТоваров">
+          <ScalarProperty Name="ЗаказID" ColumnName="ЗаказID" />
+          <ScalarProperty Name="КодТовара" ColumnName="КодТовара" />
+          <ScalarProperty Name="РасценкаТоннЗаКм" ColumnName="РасценкаТоннЗаКм" />
+          <ScalarProperty Name="Количество" ColumnName="Количество" />
+          <ScalarProperty Name="Масса" ColumnName="Масса" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Заказы">
+      <EntityTypeMapping TypeName="managmentModel.Заказы">
+        <MappingFragment StoreEntitySet="Заказы">
+          <ScalarProperty Name="ЗаказID" ColumnName="ЗаказID" />
+          <ScalarProperty Name="СрокПоставки" ColumnName="СрокПоставки" />
+          <ScalarProperty Name="ДатаЗаказа" ColumnName="ДатаЗаказа" />
+          <ScalarProperty Name="КлиентID" ColumnName="КлиентID" />
+          <ScalarProperty Name="МестоНазначения" ColumnName="МестоНазначения" />
+          <ScalarProperty Name="СостояниеID" ColumnName="СостояниеID" />
+          <ScalarProperty Name="ДатаДоставки" ColumnName="ДатаДоставки" />
+          <ScalarProperty Name="ТрСредствоID" ColumnName="ТрСредствоID" />
+          <ScalarProperty Name="ВодительID" ColumnName="ВодительID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Клиенты">
+      <EntityTypeMapping TypeName="managmentModel.Клиенты">
+        <MappingFragment StoreEntitySet="Клиенты">
+          <ScalarProperty Name="КлиентID" ColumnName="КлиентID" />
+          <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+          <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+          <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="СкладТоваров">
+      <EntityTypeMapping TypeName="managmentModel.СкладТоваров">
+        <MappingFragment StoreEntitySet="СкладТоваров">
+          <ScalarProperty Name="КодТовара" ColumnName="КодТовара" />
+          <ScalarProperty Name="Остаток" ColumnName="Остаток" />
+          <ScalarProperty Name="Цена" ColumnName="Цена" />
+          <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="СостояниеЗаказа">
+      <EntityTypeMapping TypeName="managmentModel.СостояниеЗаказа">
+        <MappingFragment StoreEntitySet="СостояниеЗаказа">
+          <ScalarProperty Name="СостояниеID" ColumnName="СостояниеID" />
+          <ScalarProperty Name="Состояние" ColumnName="Состояние" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ТранспортноеСредство">
+      <EntityTypeMapping TypeName="managmentModel.ТранспортноеСредство">
+        <MappingFragment StoreEntitySet="ТранспортноеСредство">
+          <ScalarProperty Name="ТрСредствоID" ColumnName="ТрСредствоID" />
+          <ScalarProperty Name="Марка" ColumnName="Марка" />
+          <ScalarProperty Name="Грузоподъемность" ColumnName="Грузоподъемность" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

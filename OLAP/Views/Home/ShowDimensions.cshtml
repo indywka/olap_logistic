@@ -1,0 +1,112 @@
+﻿    <div class="navbar">
+        <div class="navbar-inner">
+            <span id="DimSelLabel">Измерения</span>
+            <div class="columnButtons">
+                <a href="#addNewDimension" id="addDim" role="button" class="btn btn-success disabled" data-toggle="modal">Добавить...</a>
+                <a href="#" id="delDim" role="button" class="btn btn-danger disabled">Удалить</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal hide" id="addNewDimension" tabindex="-1" style="z-index: 5002" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button ztype="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Добавить измерение</h3>
+        </div>
+        <div class="modal-body">
+             <div id="newDimError" class="alert alert-error hide">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Ошибка!</strong> Все поля должны быть заполнены.
+            </div>
+            @using (Html.BeginForm("AddDimension", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "newDimForm" }))
+            {
+            <input type="text" id="newDimBaseName" style="position: absolute; visibility: hidden"  name="baseName" />
+            <label>Введите название</label>
+            <input type="text" id="newDimName" placeholder="Введите текст…" name="name">
+            <label>Выберите таблицу</label>
+            <select id="newDimSel"  class="SelDim" name="tableName">
+             </select>
+            }
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Отмена</button>
+            <button id="newDim" class="btn btn-primary">Добавить</button>
+        </div>
+    </div>
+
+    @*<h5 class="columnLabel">Измерения</h5>
+    <div class="columnButtons">
+        <a href="#" role="button" class="btn btn-success">Добавить...</a>
+        <a href="#" role="button" class="btn btn-danger">Удалить</a>
+    </div>*@
+    <select id="SelDim" size="2" class="selectData SelDim">
+        @if (ViewData["dimensions"] != null){
+            foreach (var dim in (List<OLAP.Models.DimensionJson>)ViewData["dimensions"])
+            {
+                <option>@dim.Name</option>
+            }
+        }
+    </select>
+
+<script>
+    $("#newDim").click(function () {
+        var str = $("#newDimName").val();
+        str = $.trim(str);
+        if (!str || !$("#newDimSel option:selected").val() || !$.trim($("#newDimBaseName").val())) {
+            $("#newDimError").show();
+            $("#newDimName").focus();
+        } else {
+            $("#newDimForm").submit();
+            $("#newDimName").val() = "";
+        }
+    });
+
+    $("#SelDim").change(function () {
+        if ($("#SelDim").children().length == 0) {
+            $("#delDim").addClass("disabled");
+            $("#addMeas").addClass("disabled");
+        }
+        else {
+            $("#newMeasDimName").val($("#SelDim option:selected").val());
+            $("#addMeas").removeClass("disabled");
+            $("#delDim").removeClass("disabled");
+        }
+    });
+
+    function setMeasures(data) {
+        $("#SelMeas").children().remove();
+        $("#newMeasSel").children().remove();
+        var meas = JSON.parse(data.responseText);
+        for (var m in meas) {
+            if (meas[m].Name !== "") {
+                $("#SelMeas").append("<option>" + meas[m].Name + "</option>");
+            } else if (meas[m].ColumnName !== "") {
+                $("#newMeasSel").append("<option>" + meas[m].ColumnName + "</option>");
+            }
+        }
+    }
+
+    $("#SelDim").click(function () {
+        if ($("#SelMeas").children().length == 0) {
+            $("#delMeas").addClass("disabled");
+        }
+        $.ajax({
+            type: "POST",
+            dataType: 'jsonp',
+            url: "/Home/ShowMeasures",
+            data: { dimName: $("#SelDim option:selected").val() },
+            success: setMeasures,
+            error: setMeasures
+        });
+    });
+
+    $("#delDim").click(function () {
+        $.get("@Url.Action("DeleteDimension", "Home")", { name: $("#SelDim option:selected").val() });
+        $("#SelDim option:selected").remove();
+
+        if ($("#SelDim option:selected") != null) {
+            $("#delDim").addClass("disabled");
+            $("#SelMeas").children().remove();
+        }
+    });
+</script>

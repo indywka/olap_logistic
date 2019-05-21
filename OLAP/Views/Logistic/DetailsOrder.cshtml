@@ -1,30 +1,32 @@
 ﻿@model IEnumerable<OLAP.Models.ЗаказаноТоваров>
 
-<p>
-  <a>@Html.ActionLink("Добавить товар к заказу", "AddGoodInOrder") </a>
-    @Html.ActionLink("Вернуться обратно", "Managment")
-</p>
-<table rules="all"  class="table_price">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ЗаказID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.КодТовара)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.РасценкаТоннЗаКм)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Количество)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Масса)
-        </th>
-        <th></th>
-    </tr>
+<div class="but_div">
+    @Html.ActionLink("Добавить товар к заказу", "AddGoodInOrder", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role="button" })
+    @Html.ActionLink("Вернуться обратно", "Managment", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role="button" })
+</div>
+ 
+<div class="table_div">
+    <table rules="all" class="table_price">
+        <tr>
+            <th>
+                Номер заказа
+            </th>
+            <th>
+                Код товара
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.РасценкаТоннЗаКм)
+            </th>
+            <th>
+                Количество
+            </th>
+            <th>
+                Масса
+            </th>
+            <th></th>
+        </tr>
 
-    @foreach (var item in Model)
+        @foreach (var item in Model)
     {
         <tr>
             <td>
@@ -49,4 +51,5 @@
         </tr>
     }
 
-</table>
+    </table>
+    </div class="table_div">

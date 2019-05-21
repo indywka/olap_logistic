@@ -15,9 +15,9 @@ canvas {
     cursor: pointer;
 }
 
-#scrButton:active {
-    background-image: url(..//Images/ScreenshotButtonDown.png);
-}
+    #scrButton:active {
+        background-image: url(..//Images/ScreenshotButtonDown.png);
+    }
 
 #debug {
     min-width: 50px;
@@ -28,32 +28,32 @@ canvas {
 }
 
 .marker {
-	position:				absolute;
-	display:				inline-block;
-	background-color: 		rgba(0,0,0,.87);	
-	color:					#ffffff;
-	font-size:				8pt;
-    font-family: 			Arial;
-	-moz-user-select:		-moz-none;
-	-khtml-user-select:		none;
-	-webkit-user-select:	none;
-	margin: 				0px;
-	border:					0px;
-	padding:				1px;
-	overflow: 				hidden;		
-	cursor:					pointer;
-    z-index:                1000;
+    position: absolute;
+    display: inline-block;
+    background-color: rgba(0,0,0,.87);
+    color: #ffffff;
+    font-size: 8pt;
+    font-family: Arial;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    margin: 0px;
+    border: 0px;
+    padding: 1px;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 1000;
     top: -50px;
     left: -50px;
 }
 
-.marker:hover {
-   background-color: 		rgba(255,140,0,.87);
-   color:					#000000;
-}
+    .marker:hover {
+        background-color: rgba(255,140,0,.87);
+        color: #000000;
+    }
 
 .measure {
-	margin-right:			1px;
+    margin-right: 1px;
 }
 
 #visualization {
@@ -122,8 +122,7 @@ canvas {
     min-height: 500px;
 }
 
-#left
-{
+#left {
     position: absolute;
     min-height: 485px;
     max-height: 485px;
@@ -133,8 +132,7 @@ canvas {
     bottom: 15px;
 }
 
-#right
-{
+#right {
     position: absolute;
     top: 77px;
     bottom: 15px;
@@ -249,11 +247,13 @@ table {
 }
 
 tr {
-    text-align:center;
+    text-align: center;
 }
 
-th{
+th {
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .table_price {
@@ -304,12 +304,82 @@ th{
         color: #000000;
     }
 
-    .table_price a:hover {
+        .table_price a:hover {
             box-shadow: none;
             top: 2px;
             left: 2px;
+            color: black;
         }
 
 .table_div {
-    margin:  0px 10px 0px 15px;
+    margin: 0px 10px 0px 15px;
 }
+
+.but_div {
+    margin: 10px 0px 5px 15px;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+    .btn-primary:focus,
+    .btn-primary.focus {
+        color: #fff;
+        background-color: #286090;
+        border-color: #122b40;
+    }
+
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #286090;
+        border-color: #204d74;
+    }
+
+    .btn-primary:active,
+    .btn-primary.active,
+    .open > .dropdown-toggle.btn-primary {
+        color: #fff;
+        background-color: #286090;
+        border-color: #204d74;
+    }
+
+        .btn-primary:active:hover,
+        .btn-primary.active:hover,
+        .open > .dropdown-toggle.btn-primary:hover,
+        .btn-primary:active:focus,
+        .btn-primary.active:focus,
+        .open > .dropdown-toggle.btn-primary:focus,
+        .btn-primary:active.focus,
+        .btn-primary.active.focus,
+        .open > .dropdown-toggle.btn-primary.focus {
+            color: #fff;
+            background-color: #204d74;
+            border-color: #122b40;
+        }
+
+    .btn-primary:active,
+    .btn-primary.active,
+    .open > .dropdown-toggle.btn-primary {
+        background-image: none;
+    }
+
+    .btn-primary.disabled:hover,
+    .btn-primary[disabled]:hover,
+    fieldset[disabled] .btn-primary:hover,
+    .btn-primary.disabled:focus,
+    .btn-primary[disabled]:focus,
+    fieldset[disabled] .btn-primary:focus,
+    .btn-primary.disabled.focus,
+    .btn-primary[disabled].focus,
+    fieldset[disabled] .btn-primary.focus {
+        background-color: #337ab7;
+        border-color: #2e6da4;
+    }
+
+    .btn-primary .badge {
+        color: #337ab7;
+        background-color: #fff;
+    }

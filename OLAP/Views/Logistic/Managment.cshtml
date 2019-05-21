@@ -1,40 +1,41 @@
 ﻿@model IEnumerable<OLAP.Models.Заказы>
 
-
-<p>
-    @Html.ActionLink("Добавить заказ", "Create")
-</p>
+<div class="but_div">
+    @Html.ActionLink("Создать заказ", "AddOrder", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Изменить заказ", "ChangeOrder", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Удалить заказ", "DeleteOrder", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+</div>
 
 <div class="table_div">
     <table rules="all" class="table_price">
         <caption>Заказы</caption>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ЗаказID)
+                Номер заказа
             </th>
             <th>
                 Срок Поставки
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ДатаЗаказа)
+                Дата заказа
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.КлиентID)
+                Клиент
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.МестоНазначения)
+                Место назначения
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.СостояниеID)
+                Состояние заказа
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ДатаДоставки)
+                Дата доставки
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ТрСредствоID)
+                Транспортн. средство
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ВодительID)
+                Водитель
             </th>
             <th></th>
         </tr>

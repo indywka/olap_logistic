@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BackloadConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogisticController.cs" />
     <Compile Include="Global.asax.cs">
@@ -365,6 +366,7 @@
     </Content>
     <Content Include="Views\Logistic\Managment.cshtml" />
     <Content Include="Views\Logistic\DetailsOrder.cshtml" />
+    <Content Include="Views\Logistic\AddOrder.cshtml" />
     <None Include="Web.FileUpload.config" />
     <None Include="Web.FileUpload.xsd">
       <SubType>Designer</SubType>

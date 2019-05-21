@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,7 +14,9 @@ namespace OLAP.Controllers
         //
         // GET: /managment/
 
+
         managmentEntities entities = new managmentEntities();
+        managmentEntities context2 = new managmentEntities();// для фио клиента
 
         public ActionResult Managment()
         {
@@ -46,7 +49,33 @@ namespace OLAP.Controllers
                 return HttpNotFound();
             }
             return View(lst1);
-        }  //детали по заказу (что заказно)  + добавить фио, назв. товара.. тс...
+        }  //детали по заказу (что заказно)
+
+
+        public ActionResult AddOrder() { return View(); }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddOrder([Bind(Include = "СрокПоставки, ДатаЗаказа, КлиентID, МестоНазначения, СостояниеID, " +
+               "ДатаДоставки, ТрСредствоID, ВодительID")]Заказы заказы)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    entities.Заказы.Add(заказы);
+                    entities.SaveChanges();
+                    return RedirectToAction("DetailsOrder");
+                }
+            }
+            catch (DataException /* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
+            return View(заказы);
+        }
+
 
 
         public ActionResult AddGoodInOrder() //добавление товара в заказ
@@ -56,7 +85,6 @@ namespace OLAP.Controllers
 
         }
 
-
         public ActionResult ChangeGoodInOrder() //изменение товара в заказ
         {
 
@@ -64,13 +92,15 @@ namespace OLAP.Controllers
 
         }
 
-
         public ActionResult DeleteGoodInOrder() //удаление товара из заказ
         {
 
             return View();
 
         }
+
+
+
 
     }
 }

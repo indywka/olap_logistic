@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using OLAP.App_Start;
 
 namespace OLAP
 {
@@ -18,12 +19,11 @@ namespace OLAP
         protected void Application_Start()
         {
             Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=(localdb)\v11.0; Integrated Security=True; MultipleActiveResultSets=True; charset = utf8;");
-
             AreaRegistration.RegisterAllAreas();
-
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
 }

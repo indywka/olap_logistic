@@ -15,7 +15,8 @@ namespace OLAP.Models
     
     public partial class managmentEntities : DbContext
     {
-        public managmentEntities() : base("name=managmentEntities")
+        public managmentEntities()
+            : base("name=managmentEntities")
         {
         }
     

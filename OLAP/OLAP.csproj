@@ -185,6 +185,33 @@
     <Compile Include="Models\ТранспортноеСредство.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model_test\DataBases.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model_test\Dimensions.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model_test\Facts.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model_test\Measures.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model_test\Model1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model_test\Model1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model_test\Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +223,10 @@
       <DependentUpon>managment.mdf</DependentUpon>
     </Content>
     <Content Include="App_Data\OLAPDB.sdf" />
+    <Content Include="App_Data\OLAPDBmdf.mdf" />
+    <Content Include="App_Data\OLAPDBmdf_log.ldf">
+      <DependentUpon>OLAPDBmdf.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\FileUpload\content-types\128\Excel.png" />
     <Content Include="Content\FileUpload\content-types\128\File.png" />
@@ -292,6 +323,16 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Model_test\Model1.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model_test\Model1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\Control.js" />
     <Content Include="Scripts\FileUpload\angularjs\angular.debug.js" />
@@ -367,6 +408,13 @@
     <Content Include="Views\Logistic\Managment.cshtml" />
     <Content Include="Views\Logistic\DetailsOrder.cshtml" />
     <Content Include="Views\Logistic\AddOrder.cshtml" />
+    <EntityDeploy Include="Model_test\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Model_test\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Web.FileUpload.config" />
     <None Include="Web.FileUpload.xsd">
       <SubType>Designer</SubType>

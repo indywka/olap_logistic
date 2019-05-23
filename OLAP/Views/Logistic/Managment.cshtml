@@ -1,9 +1,11 @@
 ﻿@model IEnumerable<OLAP.Models.Заказы>
 
 <div class="but_div">
-    @Html.ActionLink("Создать заказ", "AddOrder", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
-    @Html.ActionLink("Изменить заказ", "ChangeOrder", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
-    @Html.ActionLink("Удалить заказ", "DeleteOrder", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Добавить заказ", "AddOrder", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Управление клиентами", "   ", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Управление водителями", "   ", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Управление ТС", "   ", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Управление складом", "   ", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
 </div>
 
 <div class="table_div">

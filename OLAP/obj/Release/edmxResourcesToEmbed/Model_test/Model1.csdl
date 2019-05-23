@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OLAPDBmdfModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="DataBases">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FileName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Dimensions" Relationship="Self.FK__Dimension__DataB__49C3F6B7" FromRole="DataBases" ToRole="Dimensions" />
+    <NavigationProperty Name="Facts" Relationship="Self.FK__Facts__DataBaseI__48CFD27E" FromRole="DataBases" ToRole="Facts" />
+  </EntityType>
+  <EntityType Name="Dimensions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="DataBaseId" Type="Int32" Nullable="false" />
+    <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="DataBases" Relationship="Self.FK__Dimension__DataB__49C3F6B7" FromRole="Dimensions" ToRole="DataBases" />
+    <NavigationProperty Name="Measures" Relationship="Self.FK__Measures__Dimens__4AB81AF0" FromRole="Dimensions" ToRole="Measures" />
+  </EntityType>
+  <EntityType Name="Measures">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="DimensionId" Type="Int32" Nullable="false" />
+    <Property Name="ColumnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Priority" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Dimensions" Relationship="Self.FK__Measures__Dimens__4AB81AF0" FromRole="Measures" ToRole="Dimensions" />
+  </EntityType>
+  <EntityType Name="Facts">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="DataBaseId" />
+      <PropertyRef Name="TableName" />
+      <PropertyRef Name="RowName" />
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="DataBaseId" Type="Int32" Nullable="false" />
+    <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RowName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="DataBases" Relationship="Self.FK__Facts__DataBaseI__48CFD27E" FromRole="Facts" ToRole="DataBases" />
+  </EntityType>
+  <Association Name="FK__Dimension__DataB__49C3F6B7">
+    <End Role="DataBases" Type="Self.DataBases" Multiplicity="1" />
+    <End Role="Dimensions" Type="Self.Dimensions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DataBases">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Dimensions">
+        <PropertyRef Name="DataBaseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Facts__DataBaseI__48CFD27E">
+    <End Role="DataBases" Type="Self.DataBases" Multiplicity="1" />
+    <End Role="Facts" Type="Self.Facts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DataBases">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Facts">
+        <PropertyRef Name="DataBaseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Measures__Dimens__4AB81AF0">
+    <End Role="Dimensions" Type="Self.Dimensions" Multiplicity="1" />
+    <End Role="Measures" Type="Self.Measures" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dimensions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Measures">
+        <PropertyRef Name="DimensionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OLAPDBmdfEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="DataBases" EntityType="Self.DataBases" />
+    <EntitySet Name="Dimensions" EntityType="Self.Dimensions" />
+    <EntitySet Name="Measures" EntityType="Self.Measures" />
+    <EntitySet Name="Facts" EntityType="Self.Facts" />
+    <AssociationSet Name="FK__Dimension__DataB__49C3F6B7" Association="Self.FK__Dimension__DataB__49C3F6B7">
+      <End Role="DataBases" EntitySet="DataBases" />
+      <End Role="Dimensions" EntitySet="Dimensions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Facts__DataBaseI__48CFD27E" Association="Self.FK__Facts__DataBaseI__48CFD27E">
+      <End Role="DataBases" EntitySet="DataBases" />
+      <End Role="Facts" EntitySet="Facts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Measures__Dimens__4AB81AF0" Association="Self.FK__Measures__Dimens__4AB81AF0">
+      <End Role="Dimensions" EntitySet="Dimensions" />
+      <End Role="Measures" EntitySet="Measures" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

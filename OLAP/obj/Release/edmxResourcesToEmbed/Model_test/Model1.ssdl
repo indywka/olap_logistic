@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище OLAPDBmdfModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="DataBases">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="FileName" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Dimensions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="DataBaseId" Type="int" Nullable="false" />
+    <Property Name="TableName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "C:\USERS\USER\DESKTOP\ДИПЛОМ-ПРОГРАММА\OLAP-MASTER\OLAP\APP_DATA\OLAPDBMDF.MDF.dbo.Facts" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+  <EntityType Name="Facts">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="DataBaseId" />
+      <PropertyRef Name="TableName" />
+      <PropertyRef Name="RowName" />
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="DataBaseId" Type="int" Nullable="false" />
+    <Property Name="TableName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="RowName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Measures">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="DimensionId" Type="int" Nullable="false" />
+    <Property Name="ColumnName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Priority" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Dimension__DataB__49C3F6B7">
+    <End Role="DataBases" Type="Self.DataBases" Multiplicity="1" />
+    <End Role="Dimensions" Type="Self.Dimensions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DataBases">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Dimensions">
+        <PropertyRef Name="DataBaseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Facts__DataBaseI__48CFD27E">
+    <End Role="DataBases" Type="Self.DataBases" Multiplicity="1" />
+    <End Role="Facts" Type="Self.Facts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DataBases">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Facts">
+        <PropertyRef Name="DataBaseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Measures__Dimens__4AB81AF0">
+    <End Role="Dimensions" Type="Self.Dimensions" Multiplicity="1" />
+    <End Role="Measures" Type="Self.Measures" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dimensions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Measures">
+        <PropertyRef Name="DimensionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище OLAPDBmdfModelContainer">
+    <EntitySet Name="DataBases" EntityType="Self.DataBases" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Dimensions" EntityType="Self.Dimensions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Measures" EntityType="Self.Measures" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Facts" EntityType="Self.Facts" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[Facts].[Id] AS [Id], 
+[Facts].[DataBaseId] AS [DataBaseId], 
+[Facts].[TableName] AS [TableName], 
+[Facts].[RowName] AS [RowName], 
+[Facts].[Name] AS [Name]
+FROM [dbo].[Facts] AS [Facts]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__Dimension__DataB__49C3F6B7" Association="Self.FK__Dimension__DataB__49C3F6B7">
+      <End Role="DataBases" EntitySet="DataBases" />
+      <End Role="Dimensions" EntitySet="Dimensions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Facts__DataBaseI__48CFD27E" Association="Self.FK__Facts__DataBaseI__48CFD27E">
+      <End Role="DataBases" EntitySet="DataBases" />
+      <End Role="Facts" EntitySet="Facts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Measures__Dimens__4AB81AF0" Association="Self.FK__Measures__Dimens__4AB81AF0">
+      <End Role="Dimensions" EntitySet="Dimensions" />
+      <End Role="Measures" EntitySet="Measures" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -7,7 +7,7 @@
       <Diagram DiagramId="cb7d0216fc3f4472af5ebc7aa0c9dc8c" Name="Diagram1">
         <EntityTypeShape EntityType="OLAPDBmdfModel.DataBases" Width="1.5" PointX="0.625" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OLAPDBmdfModel.Dimensions" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="OLAPDBmdfModel.Measures" Width="1.5" PointX="5.625" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OLAPDBmdfModel.Measures" Width="1.5" PointX="6.25" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OLAPDBmdfModel.Facts" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
         <AssociationConnector Association="OLAPDBmdfModel.FK__Dimension__DataB__49C3F6B7" ManuallyRouted="false" />
         <AssociationConnector Association="OLAPDBmdfModel.FK__Facts__DataBaseI__48CFD27E" ManuallyRouted="false" />

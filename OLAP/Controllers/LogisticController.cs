@@ -102,5 +102,43 @@ namespace OLAP.Controllers
 
 
 
+
+        public ActionResult
+            ClientsControl() //Управление клиентами
+        {
+
+            return View(model: entities.Клиенты.ToList());
+
+        }
+               
+
+        public ActionResult
+        DriversControl() //Управление водителями 
+        {
+
+            return View(model: entities.Водители.ToList());
+
+        }
+
+        public ActionResult
+             VihecleControl() //Управление транспортными средставами 
+        {
+
+            return View(model: entities.ТранспортноеСредство.ToList());
+
+        }
+
+
+        public ActionResult
+            WarehouseControl() //Управление складом
+        {
+
+            return View(model: entities.СкладТоваров.ToList());
+
+        }
+
+
+
+
     }
 }

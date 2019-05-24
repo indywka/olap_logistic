@@ -1,16 +1,21 @@
 ﻿@model IEnumerable<OLAP.Models.ЗаказаноТоваров>
 
+@{
+    ViewBag.Title = "Детали заказа";
+}
+
+
 <div class="but_div">
-    @Html.ActionLink("Добавить товар к заказу", "AddGoodInOrder", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role="button" })
-    @Html.ActionLink("Вернуться обратно", "Managment", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role="button" })
+    @Html.ActionLink("Добавить товар к заказу", "AddGoodInOrder", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Вернуться обратно", "Managment", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
 </div>
- 
+
 <div class="table_div">
     <table rules="all" class="table_price">
         <caption>Просмотр данных по заказанным товарам</caption>
         <tr>
             <th>
-                Номер заказа
+                Заказ №
             </th>
             <th>
                 Код товара
@@ -53,4 +58,4 @@
         }
 
     </table>
-    </div class="table_div">
+</div>

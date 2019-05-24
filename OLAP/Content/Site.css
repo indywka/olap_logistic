@@ -383,3 +383,7 @@ th {
         color: #337ab7;
         background-color: #fff;
     }
+
+.form-horizontal .control-label {
+    margin: 1px 26px -21px -35px;
+}

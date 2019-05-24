@@ -415,6 +415,10 @@
     <Content Include="Model_test\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\Logistic\DriversControl.cshtml" />
+    <Content Include="Views\Logistic\VihecleControl.cshtml" />
+    <Content Include="Views\Logistic\ClientsControl.cshtml" />
+    <Content Include="Views\Logistic\WarehouseControl.cshtml" />
     <None Include="Web.FileUpload.config" />
     <None Include="Web.FileUpload.xsd">
       <SubType>Designer</SubType>

@@ -1,11 +1,15 @@
 ﻿@model IEnumerable<OLAP.Models.Заказы>
 
+@{
+    ViewBag.Title = "Логистическая служба";
+}
+
 <div class="but_div">
     @Html.ActionLink("Добавить заказ", "AddOrder", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
-    @Html.ActionLink("Управление клиентами", "   ", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
-    @Html.ActionLink("Управление водителями", "   ", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
-    @Html.ActionLink("Управление ТС", "   ", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
-    @Html.ActionLink("Управление складом", "   ", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Управление клиентами", "ClientsControl", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Управление водителями", "DriversControl", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Управление ТС", "VihecleControl", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Управление складом", "WarehouseControl", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
 </div>
 
 <div class="table_div">
@@ -13,7 +17,7 @@
         <caption>Заказы</caption>
         <tr>
             <th>
-                Номер заказа
+                Заказ №
             </th>
             <th>
                 Срок Поставки

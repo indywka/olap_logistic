@@ -1,0 +1,49 @@
+﻿@model IEnumerable<OLAP.Models.ТранспортноеСредство>
+
+@{
+    ViewBag.Title = "Управление ТС";
+}
+
+<div class="but_div">
+    @Html.ActionLink("Добавить ТС", " ", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Вернуться обратно", "Managment", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+</div>
+
+<div class="table_div">
+    <table rules="all" class="table_price">
+        <caption>Просмотр данных по ТС</caption>
+            <tr>
+                <th>
+                 ТС №
+                </th>
+                <th>
+                  Марка
+                </th>
+                <th>
+                 Грузоподъемность
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ТрСредствоID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Марка)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Грузоподъемность)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Изменить", " ", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Детали", " ", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Удалить", " ", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+
+        </table>
+</div>s

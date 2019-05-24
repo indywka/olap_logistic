@@ -1,0 +1,55 @@
+﻿@model IEnumerable < OLAP.Models.СкладТоваров >
+
+@{
+    ViewBag.Title = "Управление складом";
+}
+
+<div class="but_div">
+    @Html.ActionLink("Добавить товар на склад", " ", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+    @Html.ActionLink("Вернуться обратно", "Managment", routeValues: null, htmlAttributes: new { @class = "btn mb1 black bg-gray", @role = "button" })
+</div>
+
+<div class="table_div">
+    <table rules="all" class="table_price">
+        <caption>Просмотр данных по ТС</caption>
+        <tr>
+            <th>
+                Код товара
+            </th>
+            <th>
+                Остаток
+            </th>
+            <th>
+                Цена
+            </th>
+            <th>
+                Наименование
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.КодТовара)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Остаток)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Цена)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Наименование)
+                </td>
+                <td>
+                    @Html.ActionLink("Изменить", " ", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Детали", " ", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Удалить", " ", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
